@@ -462,6 +462,47 @@
     </footer>
 
     <script>
+        // --- 音效與語音提示 ---
+        const synth = window.speechSynthesis;
+
+        function playDing() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+            osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.5); // Drop to A4
+            
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start();
+            osc.stop(ctx.currentTime + 0.5);
+        }
+
+        function speakText(text, onEndCallback) {
+            if (synth.speaking) {
+                synth.cancel(); // Cancel previous if any
+            }
+            if (text !== '') {
+                const utterThis = new SpeechSynthesisUtterance(text);
+                utterThis.rate = 0.9;
+                utterThis.pitch = 1;
+                if (onEndCallback) {
+                    utterThis.onend = onEndCallback;
+                }
+                synth.speak(utterThis);
+            } else {
+                if (onEndCallback) onEndCallback();
+            }
+        }
+
         // --- 評分按鈕功能 ---
         window.togglePassFail = function(btn, status) {
             const parent = btn.parentElement;
@@ -660,22 +701,52 @@
 
         window.startTimer = function(type, duration) {
             if (intervals[type]) clearInterval(intervals[type]);
+            
+            // UI elements
             const display = document.getElementById(`timer-display-${type}`);
             const box = document.getElementById(`timer-box-${type}`);
-            let timer = duration;
-            box.classList.add('timer-running');
             
-            intervals[type] = setInterval(function () {
-                timer--;
-                if (timer < 0) {
-                    clearInterval(intervals[type]);
-                    box.classList.remove('timer-running');
-                    alert(`${type === 'prep' ? '準備時間' : type === 'read' ? '朗讀' : '說故事'} 時間到！`);
-                    return;
-                }
+            // 1. Play Ding
+            playDing();
+
+            // 2. Define Text
+            let msg = "";
+            switch(type) {
+                case 'prep':
+                    msg = "準備時間，一分三十秒。 Preparation time, one minute and thirty seconds.";
+                    break;
+                case 'read':
+                    msg = "開始朗讀作答，計時兩分鐘。 Start reading task, two minutes.";
+                    break;
+                case 'story':
+                    msg = "計時說故事，兩分鐘。 Storytelling task, two minutes.";
+                    break;
+            }
+
+            // 3. Define Timer Logic
+            const runTimer = () => {
+                let timer = duration;
+                box.classList.add('timer-running');
+                
+                // Update immediately to show starting time
                 display.textContent = formatTime(timer);
-                if (timer <= 10) display.classList.add('text-red-600');
-            }, 1000);
+
+                intervals[type] = setInterval(function () {
+                    timer--;
+                    if (timer < 0) {
+                        clearInterval(intervals[type]);
+                        box.classList.remove('timer-running');
+                        alert(`${type === 'prep' ? '準備時間' : type === 'read' ? '朗讀' : '說故事'} 時間到！`);
+                        return;
+                    }
+                    display.textContent = formatTime(timer);
+                    if (timer <= 10) display.classList.add('text-red-600');
+                }, 1000);
+            };
+
+            // 4. Execute based on type (Now ALL types wait for speech to end)
+            // Previously only story waited. Now all wait.
+            speakText(msg, runTimer);
         };
 
         window.resetTimer = function(type, duration) {
@@ -685,6 +756,7 @@
             display.textContent = formatTime(duration);
             display.classList.remove('text-red-600');
             box.classList.remove('timer-running');
+            synth.cancel(); // Stop speaking if reset
         };
 
         // --- 錄音機邏輯 (MediaRecorder) ---
