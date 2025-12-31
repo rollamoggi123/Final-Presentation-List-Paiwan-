@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排灣語期末報告 Final Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { 
+            background-color: #f0fdf4; /* 淺綠底色 */
+            font-family: 'Noto Sans TC', sans-serif; 
+        }
+        .paiwan-text {
+            line-height: 2.2;
+            letter-spacing: 0.03em;
+        }
+        .student-table th {
+            background-color: #047857; /* Emerald 700 */
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+        .page-title-gradient {
+            background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+        }
+        .bilingual-sub {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.8;
+            margin-top: 1px;
+        }
+        .editable-name {
+            cursor: text;
+            transition: all 0.2s;
+        }
+        .editable-name:hover {
+            background-color: #ecfdf5;
+        }
+        .editable-name:focus {
+            background-color: #fff;
+            outline: 2px solid #059669;
+            box-shadow: 0 0 10px rgba(5, 150, 105, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .tab-active {
+            border-bottom: 4px solid #059669;
+            color: #064e3b;
+            background-color: #ecfdf5;
+        }
+        /* 計時器動畫效果 */
+        @keyframes pulse-red {
+            0%, 100% { background-color: #fee2e2; }
+            50% { background-color: #fca5a5; }
+        }
+        .timer-running {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        /* 錄音動畫 */
+        @keyframes pulse-record {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .recording-active {
+            animation: pulse-record 1.5s infinite;
+            background-color: #ef4444 !important;
+            border-color: #ef4444 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+    <!-- 頂部導覽 -->
+    <nav class="bg-slate-900 text-white p-4 shadow-lg mb-0">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <i class="fas fa-feather-alt text-emerald-400"></i> 
+                <div>
+                    族語能力認證學習系統
+                    <span class="bilingual-sub">Indigenous Language Certification System</span>
+                </div>
+            </h1>
+            <div id="connection-indicator" class="text-xs bg-slate-800 px-3 py-1 rounded-full border border-slate-700 text-emerald-400">
+                <i class="fas fa-check-circle mr-1"></i> 
+                雲端連動中 <span class="ml-1 opacity-60">Cloud Syncing</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 專屬標題區 -->
+    <div class="page-title-gradient text-white py-10 px-4 mb-8 shadow-inner border-b-4 border-emerald-900">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">
+                排灣語期末報告
+            </h2>
+            <p class="text-xl md:text-2xl font-light text-emerald-100 italic">
+                Final Presentation List (Paiwan)
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <span class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl text-sm border border-white/30 flex flex-col items-center">
+                    <span class="font-bold">2026年 1月</span>
+                    <span class="text-[10px] opacity-80 uppercase tracking-widest text-white">January 2026</span>
+                </span>
+                <span class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl text-sm border border-white/30 flex flex-col items-center text-center">
+                    <span class="font-bold">幼教系-族語3-語文教室 (排灣語組)</span>
+                    <span class="text-[10px] opacity-80 uppercase tracking-widest text-white">Dept. of ECE - Language Lab</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4">
+        
+        <!-- 考生名單區塊 -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 mb-10 overflow-hidden">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
+                    <i class="fas fa-list-ol text-emerald-700"></i> 
+                    <div>
+                        排灣語報告名單
+                        <span class="text-xs font-normal text-slate-500 block uppercase tracking-tight">Presentation List</span>
+                    </div>
+                </h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left student-table">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-4 text-sm">序號</th>
+                            <th class="px-6 py-4 text-sm">姓名 (可修改)</th>
+                            <th class="px-6 py-4 text-sm">族語分組</th>
+                            <th class="px-6 py-4 text-sm">級別</th>
+                            <th class="px-6 py-4 text-sm text-center">狀態 (點擊切換)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <!-- 楊舒閑 (序號 7) - 中排灣 -->
+                        <tr class="hover:bg-emerald-50/50 transition-colors">
+                            <td class="px-6 py-4 font-mono font-bold text-emerald-800">07</td>
+                            <td class="px-6 py-4 font-bold text-slate-800 editable-name" contenteditable="true">
+                                楊舒閑 
+                                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded ml-2 font-normal">1/2 期末報告</span>
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 cursor-pointer hover:text-emerald-600" onclick="switchLevel('central')"><i class="fas fa-map-marker-alt mr-1"></i>中排灣 (C. Paiwan)</td>
+                            <td class="px-6 py-4"><span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold ring-1 ring-amber-200">中高級</span></td>
+                            <td class="px-6 py-4 text-sm font-bold text-slate-400 cursor-pointer hover:bg-slate-100 transition-all text-center select-none" onclick="toggleStatus(this)">
+                                <span><i class="far fa-clock mr-1"></i> 待報告</span>
+                            </td>
+                        </tr>
+                        <!-- 呂頌恩 (序號 12) - 北排灣 -->
+                        <tr class="hover:bg-emerald-50/50 transition-colors">
+                            <td class="px-6 py-4 font-mono font-bold text-emerald-800">12</td>
+                            <td class="px-6 py-4 font-bold text-slate-800 editable-name" contenteditable="true">
+                                呂頌恩
+                                <span class="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded ml-2 font-normal">1/9 期末報告</span>
+                            </td>
+                            <td class="px-6 py-4 text-slate-600 cursor-pointer hover:text-emerald-600" onclick="switchLevel('north')"><i class="fas fa-map-marker-alt mr-1"></i>北排灣 (N. Paiwan)</td>
+                            <td class="px-6 py-4"><span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold ring-1 ring-amber-200">中高級</span></td>
+                            <td class="px-6 py-4 text-sm font-bold text-slate-400 cursor-pointer hover:bg-slate-100 transition-all text-center select-none" onclick="toggleStatus(this)">
+                                <span><i class="far fa-clock mr-1"></i> 待報告</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 語別切換 Tab (放在內容上方，方便切換) -->
+        <div class="flex border-b border-slate-200 bg-white rounded-t-2xl overflow-hidden shadow-sm mb-6 max-w-7xl mx-auto">
+            <button onclick="switchLevel('north')" id="tab-north" class="flex-1 py-4 font-bold text-lg transition-all tab-active">
+                <i class="fas fa-map-marker-alt mr-2"></i>北排灣語 (North)
+            </button>
+            <button onclick="switchLevel('central')" id="tab-central" class="flex-1 py-4 font-bold text-lg transition-all text-slate-400 hover:text-slate-600 bg-slate-50">
+                <i class="fas fa-map-marker-alt mr-2"></i>中排灣語 (Central)
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- 左側：考題區 -->
+            <div class="space-y-8">
+                <!-- Task 1: 朗讀考題 -->
+                <div class="bg-white p-3 rounded-3xl shadow-lg overflow-hidden border border-slate-200 ring-1 ring-emerald-100">
+                    <div class="px-5 py-4 border-b flex items-center justify-between bg-emerald-50/50">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-book-open text-emerald-600 text-xl"></i> 
+                            <div>
+                                <h4 class="font-bold text-slate-800" id="task1-title">朗讀考題</h4>
+                                <span class="text-[10px] font-normal text-slate-500 block uppercase tracking-tighter italic">Reading Task</span>
+                                <div class="mt-1 text-[10px] text-emerald-800 font-bold bg-white/60 px-1.5 py-0.5 rounded border border-emerald-200 inline-block">
+                                    <i class="fas fa-clock mr-1"></i>備答 2分鐘 / 作答 1.5分鐘
+                                </div>
+                            </div>
+                        </span>
+                        <span class="text-[11px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded border border-emerald-200">TASK 1</span>
+                    </div>
+                    <div class="p-2 bg-slate-50 min-h-[300px] flex items-center justify-center">
+                         <img id="task1-img" src="" class="w-full h-auto object-contain rounded-xl shadow-inner">
+                    </div>
+                </div>
+
+                <!-- Task 2: 看圖說故事考題 (已更新為多主題切換) -->
+                <div class="bg-white p-3 rounded-3xl shadow-lg overflow-hidden border border-slate-200 ring-1 ring-emerald-100">
+                    <div class="px-5 py-4 border-b flex items-center justify-between bg-slate-50">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-comment-dots text-emerald-600 text-xl"></i> 
+                            <div>
+                                <h4 class="font-bold text-slate-800">看圖說故事考題 (請選一題)</h4>
+                                <span class="text-[10px] font-normal text-slate-500 block uppercase tracking-tighter italic">Storytelling Task (Select 1 of 3)</span>
+                                <div class="mt-1 text-[10px] text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 inline-block">
+                                    <i class="fas fa-clock mr-1"></i>備答 2分鐘 / 作答 2分鐘
+                                </div>
+                            </div>
+                        </span>
+                        <span class="text-[11px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded border border-emerald-200">TASK 2</span>
+                    </div>
+                    
+                    <!-- 圖片選擇按鈕 -->
+                    <div class="px-5 py-3 bg-slate-50 flex gap-2 overflow-x-auto border-b border-slate-100">
+                         <button onclick="switchStoryImage(1)" class="flex-1 bg-emerald-100 text-emerald-700 border-emerald-300 ring-2 ring-emerald-200 py-2 px-4 rounded-lg border text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap" id="btn-story-1">
+                            <i class="far fa-image mr-1"></i> 主題 A
+                         </button>
+                         <button onclick="switchStoryImage(2)" class="flex-1 bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 py-2 px-4 rounded-lg border border-slate-200 text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap" id="btn-story-2">
+                            <i class="far fa-image mr-1"></i> 主題 B
+                         </button>
+                         <button onclick="switchStoryImage(3)" class="flex-1 bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 py-2 px-4 rounded-lg border border-slate-200 text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap" id="btn-story-3">
+                            <i class="far fa-image mr-1"></i> 主題 C
+                         </button>
+                    </div>
+
+                    <!-- 主題說明與提示語顯示區 -->
+                    <div id="story-info-box" class="px-6 py-4 bg-amber-50 border-b border-amber-100 mb-0 transition-colors duration-300">
+                        <h5 id="story-title" class="font-bold text-slate-800 text-lg mb-2 flex flex-wrap items-center gap-2">
+                            <!-- JS 動態填入 -->
+                        </h5>
+                        <p id="story-prompt" class="text-slate-600 text-sm leading-relaxed">
+                            <!-- JS 動態填入 -->
+                        </p>
+                    </div>
+
+                    <div class="p-2 bg-slate-50 min-h-[300px] flex items-center justify-center">
+                        <img id="story-display-img" 
+                             src="" 
+                             alt="Storytelling Exam" 
+                             class="w-full h-auto object-contain rounded-xl shadow-inner transition-opacity duration-300">
+                    </div>
+                </div>
+
+                <!-- 讀稿內容文字 (含音訊播放) -->
+                <div class="bg-white p-10 rounded-[2rem] shadow-xl border border-slate-100 relative overflow-hidden ring-1 ring-slate-200">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 -mr-10 -mt-10 rounded-full"></div>
+                    
+                    <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4">
+                        <h3 class="text-2xl font-bold text-slate-800 border-l-4 border-emerald-600 pl-4">
+                            朗讀內容文字 
+                            <span class="text-xs font-normal text-slate-500 block uppercase tracking-wider italic">Reading Text Content</span>
+                        </h3>
+                        
+                        <!-- 內嵌式參考音訊播放器群組 -->
+                        <div class="flex flex-col gap-2 w-full md:w-auto">
+                            <!-- Audio 1 -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center shadow-sm w-full md:w-auto">
+                                 <div class="text-xs font-bold text-slate-400 uppercase px-3 border-r border-slate-200 mr-2 flex flex-col leading-tight min-w-[70px]">
+                                    <span><i class="fas fa-headphones-alt text-emerald-500 mr-1"></i>參考 1</span>
+                                    <span>Audio 1</span>
+                                 </div>
+                                 <audio id="ref-audio" controls class="h-8 w-full md:w-60">
+                                    <source src="" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <!-- Audio 2 (預設隱藏) -->
+                            <div id="ref-audio-container-2" class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center shadow-sm w-full md:w-auto hidden">
+                                 <div class="text-xs font-bold text-slate-400 uppercase px-3 border-r border-slate-200 mr-2 flex flex-col leading-tight min-w-[70px]">
+                                    <span><i class="fas fa-headphones-alt text-emerald-500 mr-1"></i>參考 2</span>
+                                    <span>Audio 2</span>
+                                 </div>
+                                 <audio id="ref-audio-2" controls class="h-8 w-full md:w-60">
+                                    <source src="" type="audio/mpeg">
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-title" class="mb-4 text-emerald-800 font-bold bg-emerald-50 px-4 py-2 rounded-lg inline-block text-sm border border-emerald-100">
+                        <!-- 動態標題 -->
+                    </div>
+                    <div id="content-text" class="text-slate-700 italic font-medium leading-loose bg-slate-50/80 p-8 rounded-2xl border border-dashed border-slate-300 shadow-inner text-justify">
+                        <!-- 動態內文 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側：計時器、播放器與文本 -->
+            <div class="space-y-8">
+                
+                <!-- 測驗計時控制台 -->
+                <div class="bg-white rounded-[2rem] shadow-xl border border-slate-200 overflow-hidden ring-1 ring-slate-200 sticky top-4 z-40">
+                    <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
+                        <h3 class="font-bold text-lg flex items-center gap-2">
+                            <i class="fas fa-stopwatch text-yellow-400"></i>
+                            測驗計時控制台
+                            <span class="text-xs font-normal opacity-60 uppercase">Exam Timers</span>
+                        </h3>
+                    </div>
+                    <div class="p-6 grid gap-4">
+                        <!-- 準備時間計時器 (1:30) -->
+                        <div id="timer-box-prep" class="bg-amber-50 rounded-xl p-4 border border-amber-100 flex items-center justify-between transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-amber-100 text-amber-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+                                <div>
+                                    <div class="text-xs font-bold text-amber-800 uppercase tracking-wider">準備時間 Preparation</div>
+                                    <div id="timer-display-prep" class="text-2xl font-mono font-bold text-slate-700">01:30</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startTimer('prep', 90)" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                <button onclick="resetTimer('prep', 90)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- 朗讀作答計時器 (2:00) -->
+                        <div id="timer-box-read" class="bg-emerald-50 rounded-xl p-4 border border-emerald-100 flex items-center justify-between transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-emerald-100 text-emerald-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+                                <div>
+                                    <div class="text-xs font-bold text-emerald-800 uppercase tracking-wider">朗讀作答 Reading</div>
+                                    <div id="timer-display-read" class="text-2xl font-mono font-bold text-slate-700">02:00</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startTimer('read', 120)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                <button onclick="resetTimer('read', 120)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- 看圖說故事計時器 (2:00) -->
+                        <div id="timer-box-story" class="bg-blue-50 rounded-xl p-4 border border-blue-100 flex items-center justify-between transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-100 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+                                <div>
+                                    <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">說故事 Storytelling</div>
+                                    <div id="timer-display-story" class="text-2xl font-mono font-bold text-slate-700">02:00</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="startTimer('story', 120)" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow text-sm font-bold transition-colors"><i class="fas fa-play"></i></button>
+                                <button onclick="resetTimer('story', 120)" class="bg-white text-slate-400 hover:text-slate-600 px-3 py-1 rounded border border-slate-200 shadow-sm text-sm font-bold transition-colors"><i class="fas fa-redo"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 錄音機與內容區塊 -->
+                <div class="flex flex-col gap-4">
+                    
+                    <!-- 線上錄音機 (Task 1 & Task 2) -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-microphone-alt text-emerald-500"></i>
+                            線上錄音作答 (需錄製兩段)
+                            <span class="text-xs font-normal text-slate-500 uppercase">Record Both Tasks</span>
+                        </h3>
+
+                        <!-- Recorder 1: Reading -->
+                        <div class="mb-6 border-b border-slate-100 pb-6">
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">1. 朗讀測驗錄音 (Reading Task)</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-2 justify-center">
+                                    <button id="btn-record-start-1" onclick="startRecording(1)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-emerald-500 hover:text-emerald-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-circle"></i> 開始錄音
+                                    </button>
+                                    <button id="btn-record-stop-1" onclick="stopRecording(1)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-square"></i> 停止
+                                    </button>
+                                </div>
+                                <div id="recording-status-1" class="text-center text-xs text-slate-400 h-4"></div>
+                                <audio id="recorded-audio-1" controls class="w-full hidden h-8"></audio>
+                                <a id="btn-download-record-1" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
+                                    <i class="fas fa-download mr-2"></i> 下載朗讀錄音
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recorder 2: Storytelling -->
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">2. 看圖說故事錄音 (Storytelling Task)</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-2 justify-center">
+                                    <button id="btn-record-start-2" onclick="startRecording(2)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-circle"></i> 開始錄音
+                                    </button>
+                                    <button id="btn-record-stop-2" onclick="stopRecording(2)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-square"></i> 停止
+                                    </button>
+                                </div>
+                                <div id="recording-status-2" class="text-center text-xs text-slate-400 h-4"></div>
+                                <audio id="recorded-audio-2" controls class="w-full hidden h-8"></audio>
+                                <a id="btn-download-record-2" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
+                                    <i class="fas fa-download mr-2"></i> 下載說故事錄音
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 錄音上傳作答連結 -->
+                    <a href="#" onclick="openGoogleFormWithData(event, 'audio')" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white rounded-xl p-4 flex items-center justify-between shadow-lg transition-all group border border-emerald-500 cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-cloud-upload-alt text-white"></i>
+                            </div>
+                            <div class="text-left">
+                                <div class="font-bold text-lg">錄音上傳作答 (自動填入姓名)</div>
+                                <div class="text-xs text-emerald-100 uppercase">1. 下載錄音 -> 2. 點此上傳檔案</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-emerald-200 group-hover:text-white transition-colors"></i>
+                    </a>
+
+                    <!-- 手稿上傳作答連結 -->
+                    <a href="#" onclick="openGoogleFormWithData(event, 'manuscript')" class="w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white rounded-xl p-4 flex items-center justify-between shadow-lg transition-all group border border-sky-500 cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fas fa-file-alt text-white"></i>
+                            </div>
+                            <div class="text-left">
+                                <div class="font-bold text-lg">上傳看圖說故事手稿</div>
+                                <div class="text-xs text-sky-100 uppercase">請上傳您的故事手稿 (Google 表單)</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-sky-200 group-hover:text-white transition-colors"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-16 text-center text-slate-400 text-sm py-8 border-t border-slate-200 bg-white">
+        <p>排灣語 | 期末報告認證評量輔助系統</p>
+        <p class="mt-1 italic uppercase tracking-widest text-[10px]">© 2026 Final Evaluation Management System (Paiwan)</p>
+    </footer>
+
+    <script>
+        // --- 評分按鈕功能 ---
+        window.togglePassFail = function(btn, status) {
+            const parent = btn.parentElement;
+            // 清除同組按鈕樣式
+            parent.querySelectorAll('button').forEach(b => {
+                b.classList.remove('bg-green-600', 'bg-red-600', 'text-white', 'ring-2', 'ring-offset-1');
+                b.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+            });
+
+            // 設定當前按鈕樣式
+            if (status === 'pass') {
+                btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                btn.classList.add('bg-green-600', 'text-white', 'border-green-600', 'ring-2', 'ring-green-200', 'ring-offset-1');
+            } else {
+                btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                btn.classList.add('bg-red-600', 'text-white', 'border-red-600', 'ring-2', 'ring-red-200', 'ring-offset-1');
+            }
+        };
+
+        // --- 考生狀態切換功能 ---
+        window.toggleStatus = function(el) {
+            if (el.innerText.includes('待報告')) {
+                el.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fas fa-check-circle mr-1"></i> 報告完成</span>';
+                el.classList.add('bg-emerald-50');
+                el.classList.remove('text-slate-400');
+            } else {
+                el.innerHTML = '<span><i class="far fa-clock mr-1"></i> 待報告</span>';
+                el.classList.remove('bg-emerald-50');
+                el.classList.add('text-slate-400');
+            }
+        };
+
+        // --- 看圖說故事圖片與文字切換邏輯 ---
+        const storyData = {
+            1: {
+                img: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767049285/1%E7%9C%8B%E5%9C%96%E8%AA%AA%E6%95%85%E4%BA%8B_rqomyg.png",
+                title: '主題A 拜訪爺爺奶奶的一天 <span class="text-sm font-normal text-slate-500 ml-2">Visiting Grandma\'s Day</span>',
+                prompt: '<span class="font-bold text-slate-500 mr-1 bg-white px-1.5 rounded border border-slate-200 text-xs">提示 Prompt</span> 拜訪爺爺奶奶的一天 (Visiting Grandma\'s Day)..... <br><span class="text-emerald-700 font-bold italic block mt-1 text-base pl-2 border-l-2 border-emerald-300">ita qadav a kivala tjaya vuvu</span>'
+            },
+            2: {
+                img: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767044762/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2_2025-12-30_054318_ky2ivg.png",
+                title: '主題B 我喜歡的活動 <span class="text-sm font-normal text-slate-500 ml-2">My Favorite Activity</span>',
+                prompt: '<span class="font-bold text-slate-500 mr-1 bg-white px-1.5 rounded border border-slate-200 text-xs">提示 Prompt</span> 我喜歡做什麼...... <br><span class="text-emerald-700 font-bold italic block mt-1 text-base pl-2 border-l-2 border-emerald-300">a ku kinatjengelayan</span>'
+            },
+            3: {
+                img: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767049291/2_%E5%92%8C%E5%AE%B6%E4%BA%BA%E5%9B%9E%E9%83%A8%E8%90%BD_%E7%9C%8B%E5%9C%96%E8%AA%AA%E6%95%85%E4%BA%8B_mtpfg8.png",
+                title: '主題C 中排灣語和家人回部落 <span class="text-sm font-normal text-slate-500 ml-2">A Trip Back to the Village with My Family</span>',
+                prompt: '<span class="font-bold text-slate-500 mr-1 bg-white px-1.5 rounded border border-slate-200 text-xs">提示 Prompt</span> 和家人回部落 (A Trip Back to the Village with My Family)..... <br><span class="text-emerald-700 font-bold italic block mt-1 text-base pl-2 border-l-2 border-emerald-300">cemikel amen a mapuljat a tacemekeljan a sema qinaljan</span>'
+            }
+        };
+
+        window.switchStoryImage = function(id) {
+            const imgEl = document.getElementById('story-display-img');
+            const titleEl = document.getElementById('story-title');
+            const promptEl = document.getElementById('story-prompt');
+            const infoBox = document.getElementById('story-info-box');
+
+            const data = storyData[id];
+
+            imgEl.style.opacity = '0.5';
+            setTimeout(() => {
+                imgEl.src = data.img;
+                titleEl.innerHTML = data.title;
+                promptEl.innerHTML = data.prompt;
+                imgEl.style.opacity = '1';
+                infoBox.classList.add('bg-yellow-100');
+                setTimeout(() => infoBox.classList.remove('bg-yellow-100'), 300);
+            }, 150);
+
+            document.querySelectorAll('[id^="btn-story-"]').forEach(btn => {
+                btn.className = "flex-1 bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 py-2 px-4 rounded-lg border border-slate-200 text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap";
+            });
+
+            const activeBtn = document.getElementById(`btn-story-${id}`);
+            activeBtn.className = "flex-1 bg-emerald-100 text-emerald-700 border-emerald-300 ring-2 ring-emerald-200 py-2 px-4 rounded-lg border text-sm font-bold transition-all shadow-sm focus:outline-none whitespace-nowrap";
+        };
+
+        // --- 考題資料庫 (排灣語) ---
+        const examData = {
+            north: {
+                student: "呂頌恩",
+                title: "北排灣語 / 第10階第5課 : marekaracev 部落產業",
+                audio: "https://res.cloudinary.com/dm1ksvptk/video/upload/v1766045878/%E5%8C%97%E6%8E%92%E7%81%A3%E8%AA%9E_10%E9%9A%8E-5-1_edrv7b.mp3",
+                audio2: "https://res.cloudinary.com/dm1ksvptk/video/upload/v1767183628/%E9%83%A8%E8%90%BD%E7%94%A2%E6%A5%AD10_%E9%9A%8E-5_-2marekaracev_qzrwsa.mp3",
+                textMidterm: "kemasicuay, remagaduan a ’emuma a venacuk a sinanpazangal, palemek a ’emaljup, tjempis tua ljaceng katua sikidjuadjuas a cemel. amin a temalem ta va’u, vasa, tjalav, puk, vurati, djulis sakamaya. tazua nekanan a tja pavaveliveli a sikudan, nu izua a tja nemanema, tja sikivalivalit tua tja kinasaljingan.",
+                textFinal: "kavililj kemeljnganga a temalem tua makaya a sipaveli, mavan a tju’ulj, ’aburagi, kiyasaba, veljevelj, pangudralj, rayking, saviki, sayzaru, katua mavukid a kicemel tua sikisungilungilu a pangalu, nangua’ tua napualjak a vavayavayan. sikisu’esa’esang a ’ungal nua kavaluan, sikisusezasezam a ravuc a tekelen…. saka kemasizua sa maumaumalj a tja sikudan, semanracevanga tua tja kini’inuman, tua kinicemel, satje kemeljanganga tua kipaysu tua kakaveliyan.",
+                task1: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767183416/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2_2025-12-31_201605_ncxric.png"
+            },
+            central: {
+                student: "楊舒閑",
+                title: "中排灣語 / 第10階第5課 : malang 手工製作",
+                audio: "https://res.cloudinary.com/dm1ksvptk/video/upload/v1766046642/%E4%B8%AD%E6%8E%92%E7%81%A3%E8%AA%9E_10%E9%9A%8E-5-1-2_ofqpzc.mp3",
+                audio2: "https://res.cloudinary.com/dm1ksvptk/video/upload/v1767182579/malang_%E7%AC%AC10%E9%9A%8E5-2_fda63t.mp3",
+                textMidterm: "aicu a malang tua tja pakazuanan, izua lingadja, izua qavaqavayan, izua lidapay, izua lulu/capar, izua kizing, izua langalj izua valanga, izua qaselu, izua varukur. aicu a tja pakazuanan a inalang tja sipiliq tua nasedaljep a kasiv, nu ika maudemid nu ika mincelaq, nu ika maparaumalj a kinakasivan, vana maqati a tja alangen.",
+                textFinal: "aicu a maqati a tja kasengesengen a kasiv, izua tjeves, aicu a pauljay, aicu a cuqu, aicu a sekazu. ljakua aicu a tja siayaya a kasiv kipiliq tu sikaljanemaneman a sikikasivan nu kaljavuceleljan, a pata macepeliv a cavilj, nu katjelu a qiljasan. nu iniyaka mangetjez a zuang, mana tja sikikasikasiv! ta inika caljameqen, inika mavuk.",
+                task1: "https://res.cloudinary.com/dm1ksvptk/image/upload/v1767179317/%E4%B8%AD%E6%8E%92%E7%81%A3%E8%AA%9E%E6%9C%9F%E6%9C%AB%E6%9C%97%E8%AE%80%E7%A8%BF_pfgp6p.png"
+            }
+        };
+
+        // 目前選擇的語別
+        let currentLevel = 'north';
+
+        window.switchLevel = function(level) {
+            currentLevel = level;
+            const data = examData[level];
+            
+            // 1. 切換 Tab 樣式
+            ['north', 'central'].forEach(l => {
+                const btn = document.getElementById(`tab-${l}`);
+                if (btn) {
+                    if (l === level) {
+                        btn.className = "flex-1 py-4 font-bold text-lg transition-all tab-active";
+                    } else {
+                        btn.className = "flex-1 py-4 font-bold text-lg transition-all text-slate-400 hover:text-slate-600 bg-slate-50";
+                    }
+                }
+            });
+
+            // 2. 更新內容 (Task 1 與 朗讀)
+            document.getElementById('task1-img').src = data.task1;
+            document.getElementById('content-title').innerText = data.title;
+            
+            // 構建朗讀內容 HTML，包含分段與評分按鈕
+            const textHTML = `
+                <div class="mb-6 relative">
+                    <span class="inline-block bg-slate-200 text-slate-600 text-xs font-bold px-2 py-1 rounded mb-2 uppercase tracking-wide">第一段：期中測驗 (Midterm)</span>
+                    <div class="paiwan-text text-xl md:text-2xl text-slate-700 italic font-medium leading-loose text-justify mb-2">"${data.textMidterm}"</div>
+                    <div class="flex gap-2 justify-end">
+                        <button onclick="togglePassFail(this, 'pass')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-check mr-1"></i> 通過</button>
+                        <button onclick="togglePassFail(this, 'fail')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-times mr-1"></i> 不通過</button>
+                    </div>
+                </div>
+                <hr class="border-dashed border-slate-300 my-4">
+                <div class="mb-2 relative">
+                    <span class="inline-block bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded mb-2 uppercase tracking-wide">第二段：期末測驗 (Final)</span>
+                    <div class="paiwan-text text-xl md:text-2xl text-slate-700 italic font-medium leading-loose text-justify mb-2">"${data.textFinal}"</div>
+                    <div class="flex gap-2 justify-end">
+                        <button onclick="togglePassFail(this, 'pass')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-check mr-1"></i> 通過</button>
+                        <button onclick="togglePassFail(this, 'fail')" class="px-3 py-1 rounded border border-slate-300 text-slate-600 text-xs font-bold bg-white hover:bg-slate-50 transition-all"><i class="fas fa-times mr-1"></i> 不通過</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('content-text').innerHTML = textHTML;
+            
+            // 3. 更新參考音檔 1
+            const audioPlayer = document.getElementById('ref-audio');
+            audioPlayer.src = data.audio;
+            audioPlayer.load();
+
+            // 4. 更新參考音檔 2 (如果存在)
+            const audioContainer2 = document.getElementById('ref-audio-container-2');
+            const audioPlayer2 = document.getElementById('ref-audio-2');
+
+            if (data.audio2) {
+                audioContainer2.classList.remove('hidden');
+                audioContainer2.classList.add('flex');
+                audioPlayer2.src = data.audio2;
+                audioPlayer2.load();
+            } else {
+                audioContainer2.classList.add('hidden');
+                audioContainer2.classList.remove('flex');
+                audioPlayer2.pause();
+            }
+        };
+
+        // --- Google 表單連動設定區 ---
+        const GOOGLE_FORM_CONFIG = {
+            baseUrl: "https://docs.google.com/forms/d/e/1FAIpQLScw9CAMHpsx6LWkpnLOE3t9-ZEhgjqicvjOMWfKRvleNOXTAw/viewform", // 請替換為您的表單
+            manuscriptBaseUrl: "https://docs.google.com/forms/d/e/1FAIpQLScw9CAMHpsx6LWkpnLOE3t9-ZEhgjqicvjOMWfKRvleNOXTAw/viewform",
+            idField: "entry.442745491",  // 請確認您的 Form ID
+            nameField: "entry.1152993152"
+        };
+
+        window.openGoogleFormWithData = function(e, type) {
+            e.preventDefault();
+            
+            const studentId = currentLevel === 'north' ? '12' : '07';
+            const studentName = examData[currentLevel].student;
+
+            const targetUrl = (type === 'manuscript') 
+                              ? GOOGLE_FORM_CONFIG.manuscriptBaseUrl 
+                              : GOOGLE_FORM_CONFIG.baseUrl;
+
+            const finalUrl = `${targetUrl}?usp=pp_url&${GOOGLE_FORM_CONFIG.idField}=${encodeURIComponent(studentId)}&${GOOGLE_FORM_CONFIG.nameField}=${encodeURIComponent(studentName)}`;
+            window.open(finalUrl, '_blank');
+        };
+
+        // --- 計時器邏輯 ---
+        let intervals = { prep: null, read: null, story: null };
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+        }
+
+        window.startTimer = function(type, duration) {
+            if (intervals[type]) clearInterval(intervals[type]);
+            const display = document.getElementById(`timer-display-${type}`);
+            const box = document.getElementById(`timer-box-${type}`);
+            let timer = duration;
+            box.classList.add('timer-running');
+            
+            intervals[type] = setInterval(function () {
+                timer--;
+                if (timer < 0) {
+                    clearInterval(intervals[type]);
+                    box.classList.remove('timer-running');
+                    alert(`${type === 'prep' ? '準備時間' : type === 'read' ? '朗讀' : '說故事'} 時間到！`);
+                    return;
+                }
+                display.textContent = formatTime(timer);
+                if (timer <= 10) display.classList.add('text-red-600');
+            }, 1000);
+        };
+
+        window.resetTimer = function(type, duration) {
+            if (intervals[type]) clearInterval(intervals[type]);
+            const display = document.getElementById(`timer-display-${type}`);
+            const box = document.getElementById(`timer-box-${type}`);
+            display.textContent = formatTime(duration);
+            display.classList.remove('text-red-600');
+            box.classList.remove('timer-running');
+        };
+
+        // --- 錄音機邏輯 (MediaRecorder) ---
+        const recorders = {
+            1: { mediaRecorder: null, chunks: [] },
+            2: { mediaRecorder: null, chunks: [] }
+        };
+
+        window.startRecording = async function(id) {
+            const btnStart = document.getElementById(`btn-record-start-${id}`);
+            const btnStop = document.getElementById(`btn-record-stop-${id}`);
+            const statusTxt = document.getElementById(`recording-status-${id}`);
+            const audioPlayback = document.getElementById(`recorded-audio-${id}`);
+            const btnDownload = document.getElementById(`btn-download-record-${id}`);
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                recorders[id].mediaRecorder = new MediaRecorder(stream);
+                recorders[id].chunks = [];
+
+                recorders[id].mediaRecorder.addEventListener("dataavailable", event => {
+                    recorders[id].chunks.push(event.data);
+                });
+
+                recorders[id].mediaRecorder.addEventListener("stop", () => {
+                    const audioBlob = new Blob(recorders[id].chunks, { type: 'audio/webm' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    audioPlayback.src = audioUrl;
+                    audioPlayback.classList.remove('hidden');
+                    
+                    const time = new Date();
+                    const timestamp = `${time.getHours()}${time.getMinutes()}`;
+                    const lang = currentLevel === 'north' ? 'North' : 'Central';
+                    const filename = id === 1 ? `Paiwan_${lang}_Reading_${timestamp}.webm` : `Paiwan_${lang}_Story_${timestamp}.webm`;
+                    
+                    btnDownload.href = audioUrl;
+                    btnDownload.download = filename;
+                    btnDownload.style.display = 'block';
+                    
+                    statusTxt.textContent = "錄音完成！請試聽或下載";
+                });
+
+                recorders[id].mediaRecorder.start();
+                
+                btnStart.disabled = true;
+                btnStart.classList.add('recording-active');
+                btnStart.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 錄音中...';
+                btnStop.disabled = false;
+                btnStop.classList.remove('bg-slate-100', 'text-slate-400');
+                btnStop.classList.add('bg-slate-800', 'text-white', 'hover:bg-slate-700');
+                statusTxt.textContent = "正在錄音... (Recording)";
+                audioPlayback.classList.add('hidden');
+                btnDownload.style.display = 'none';
+
+            } catch (err) {
+                console.error("Error accessing microphone:", err);
+                alert("無法存取麥克風，請確認瀏覽器權限設定。");
+            }
+        };
+
+        window.stopRecording = function(id) {
+            const recorder = recorders[id].mediaRecorder;
+            const btnStart = document.getElementById(`btn-record-start-${id}`);
+            const btnStop = document.getElementById(`btn-record-stop-${id}`);
+
+            if (recorder && recorder.state !== 'inactive') {
+                recorder.stop();
+                btnStart.disabled = false;
+                btnStart.classList.remove('recording-active');
+                btnStart.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 重新錄音';
+                btnStop.disabled = true;
+                btnStop.classList.remove('bg-slate-800', 'text-white', 'hover:bg-slate-700');
+                btnStop.classList.add('bg-slate-100', 'text-slate-400');
+            }
+        };
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            window.switchLevel('north');
+            // 初始化看圖說故事 (Task 2)
+            window.switchStoryImage(1);
+        });
+    </script>
+</body>
+</html>
