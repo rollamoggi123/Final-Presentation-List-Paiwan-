@@ -359,13 +359,13 @@
                     <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
                         <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
                             <i class="fas fa-microphone-alt text-emerald-500"></i>
-                            線上錄音作答 (需錄製兩段)
-                            <span class="text-xs font-normal text-slate-500 uppercase">Record Both Tasks</span>
+                            線上錄音作答 (需錄製三段)
+                            <span class="text-xs font-normal text-slate-500 uppercase">Record All 3 Tasks</span>
                         </h3>
 
-                        <!-- Recorder 1: Reading -->
+                        <!-- Recorder 1: Midterm Reading -->
                         <div class="mb-6 border-b border-slate-100 pb-6">
-                            <h4 class="font-bold text-sm text-slate-700 mb-2">1. 朗讀測驗錄音 (Reading Task)</h4>
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">1. 期中朗讀測驗錄音 (Midterm Reading)</h4>
                             <div class="flex flex-col gap-3">
                                 <div class="flex gap-2 justify-center">
                                     <button id="btn-record-start-1" onclick="startRecording(1)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-emerald-500 hover:text-emerald-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
@@ -378,17 +378,17 @@
                                 <div id="recording-status-1" class="text-center text-xs text-slate-400 h-4"></div>
                                 <audio id="recorded-audio-1" controls class="w-full hidden h-8"></audio>
                                 <a id="btn-download-record-1" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
-                                    <i class="fas fa-download mr-2"></i> 下載朗讀錄音
+                                    <i class="fas fa-download mr-2"></i> 下載期中錄音
                                 </a>
                             </div>
                         </div>
 
-                        <!-- Recorder 2: Storytelling -->
-                        <div>
-                            <h4 class="font-bold text-sm text-slate-700 mb-2">2. 看圖說故事錄音 (Storytelling Task)</h4>
+                        <!-- Recorder 2: Final Reading -->
+                        <div class="mb-6 border-b border-slate-100 pb-6">
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">2. 期末朗讀測驗錄音 (Final Reading)</h4>
                             <div class="flex flex-col gap-3">
                                 <div class="flex gap-2 justify-center">
-                                    <button id="btn-record-start-2" onclick="startRecording(2)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                    <button id="btn-record-start-2" onclick="startRecording(2)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-emerald-500 hover:text-emerald-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
                                         <i class="fas fa-circle"></i> 開始錄音
                                     </button>
                                     <button id="btn-record-stop-2" onclick="stopRecording(2)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
@@ -398,6 +398,26 @@
                                 <div id="recording-status-2" class="text-center text-xs text-slate-400 h-4"></div>
                                 <audio id="recorded-audio-2" controls class="w-full hidden h-8"></audio>
                                 <a id="btn-download-record-2" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
+                                    <i class="fas fa-download mr-2"></i> 下載期末錄音
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recorder 3: Storytelling -->
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-700 mb-2">3. 看圖說故事錄音 (Storytelling Task)</h4>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-2 justify-center">
+                                    <button id="btn-record-start-3" onclick="startRecording(3)" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-500 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-circle"></i> 開始錄音
+                                    </button>
+                                    <button id="btn-record-stop-3" onclick="stopRecording(3)" disabled class="flex-1 bg-slate-100 text-slate-400 py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm">
+                                        <i class="fas fa-square"></i> 停止
+                                    </button>
+                                </div>
+                                <div id="recording-status-3" class="text-center text-xs text-slate-400 h-4"></div>
+                                <audio id="recorded-audio-3" controls class="w-full hidden h-8"></audio>
+                                <a id="btn-download-record-3" href="#" style="display:none" class="w-full bg-slate-700 hover:bg-slate-800 text-white py-2 rounded-lg text-center font-bold text-sm transition-colors">
                                     <i class="fas fa-download mr-2"></i> 下載說故事錄音
                                 </a>
                             </div>
@@ -670,7 +690,8 @@
         // --- 錄音機邏輯 (MediaRecorder) ---
         const recorders = {
             1: { mediaRecorder: null, chunks: [] },
-            2: { mediaRecorder: null, chunks: [] }
+            2: { mediaRecorder: null, chunks: [] },
+            3: { mediaRecorder: null, chunks: [] }
         };
 
         window.startRecording = async function(id) {
@@ -699,7 +720,11 @@
                     const time = new Date();
                     const timestamp = `${time.getHours()}${time.getMinutes()}`;
                     const lang = currentLevel === 'north' ? 'North' : 'Central';
-                    const filename = id === 1 ? `Paiwan_${lang}_Reading_${timestamp}.webm` : `Paiwan_${lang}_Story_${timestamp}.webm`;
+                    let filename = '';
+                    
+                    if (id === 1) filename = `Paiwan_${lang}_Midterm_Reading_${timestamp}.webm`;
+                    else if (id === 2) filename = `Paiwan_${lang}_Final_Reading_${timestamp}.webm`;
+                    else filename = `Paiwan_${lang}_Story_${timestamp}.webm`;
                     
                     btnDownload.href = audioUrl;
                     btnDownload.download = filename;
